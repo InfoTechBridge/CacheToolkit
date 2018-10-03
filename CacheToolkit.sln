@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheToolkit.Redis", "Redis\CacheToolkit.Redis.csproj", "{525CDBD2-9FE2-4EDE-AC12-600391CE0422}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheToolkit.Redis.Test", "Redis.Test\CacheToolkit.Redis.Test.csproj", "{3BA54FDC-2556-4320-A128-0E8101591060}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheToolkit.ConsoleUI", "ConsoleUI\CacheToolkit.ConsoleUI.csproj", "{38E32124-99CE-4B94-8F75-912DA5ED7926}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheToolkit.Serialization", "Serialization\CacheToolkit.Serialization.csproj", "{59E22A1C-9CA3-443F-8DA9-E22F6CE98A53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheToolkit.Core", "Core\CacheToolkit.Core.csproj", "{CAC1CA76-3CD3-438C-89AE-60EC6F6EEDB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{525CDBD2-9FE2-4EDE-AC12-600391CE0422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525CDBD2-9FE2-4EDE-AC12-600391CE0422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525CDBD2-9FE2-4EDE-AC12-600391CE0422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525CDBD2-9FE2-4EDE-AC12-600391CE0422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BA54FDC-2556-4320-A128-0E8101591060}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BA54FDC-2556-4320-A128-0E8101591060}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BA54FDC-2556-4320-A128-0E8101591060}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BA54FDC-2556-4320-A128-0E8101591060}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38E32124-99CE-4B94-8F75-912DA5ED7926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38E32124-99CE-4B94-8F75-912DA5ED7926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38E32124-99CE-4B94-8F75-912DA5ED7926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38E32124-99CE-4B94-8F75-912DA5ED7926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59E22A1C-9CA3-443F-8DA9-E22F6CE98A53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59E22A1C-9CA3-443F-8DA9-E22F6CE98A53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59E22A1C-9CA3-443F-8DA9-E22F6CE98A53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59E22A1C-9CA3-443F-8DA9-E22F6CE98A53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC1CA76-3CD3-438C-89AE-60EC6F6EEDB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC1CA76-3CD3-438C-89AE-60EC6F6EEDB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC1CA76-3CD3-438C-89AE-60EC6F6EEDB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC1CA76-3CD3-438C-89AE-60EC6F6EEDB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
