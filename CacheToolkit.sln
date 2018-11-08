@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyCache.Test.NetCore", "An
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyCache.Test.Core", "AnyCache.Test.Core\AnyCache.Test.Core.csproj", "{834D2F39-87C9-40BA-ADE7-64B0EFFDDE23}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyCache.Serialization.Protobuf", "AnyCache.Serialization.Protobuf\AnyCache.Serialization.Protobuf.csproj", "{40D59561-4D58-4EF9-AD30-AFE8D16F072B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{834D2F39-87C9-40BA-ADE7-64B0EFFDDE23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{834D2F39-87C9-40BA-ADE7-64B0EFFDDE23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{834D2F39-87C9-40BA-ADE7-64B0EFFDDE23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

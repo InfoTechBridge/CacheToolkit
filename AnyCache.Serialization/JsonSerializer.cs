@@ -13,12 +13,20 @@ namespace AnyCache.Serialization
     {
         private readonly Encoding encoding;
 
-        public JsonSerializer(Encoding encoding = null)
+        /// <summary>
+        /// Including object type in the final serialized value.
+        /// By setting this value to true the untyped Get() methods will be worked but it makes serialized value bigger.
+        /// </summary>
+        public bool SerializeTypeName { get; private set; }
+     
+        public JsonSerializer(Encoding encoding = null, bool serializeTypeName = false)
         {
             if (encoding != null)
                 this.encoding = encoding;
             else
                 this.encoding = Encoding.Default;
+
+            SerializeTypeName = serializeTypeName;
         }
 
         //public string Serialize(object value)
@@ -40,8 +48,10 @@ namespace AnyCache.Serialization
         {
             using (StreamWriter sw = new StreamWriter(stream, encoding))
             {
-                var x = JsonConvert.SerializeObject(value);
-                sw.Write(x);
+                if (SerializeTypeName)
+                    sw.WriteLine(value.GetType().AssemblyQualifiedName);
+
+                sw.Write(JsonConvert.SerializeObject(value));
             }
         }
 
@@ -49,10 +59,15 @@ namespace AnyCache.Serialization
         {
             using (StreamReader sr = new StreamReader(stream, encoding))
             {
-                string jsonString = sr.ReadToEnd();
-                //dynamic r0 = JValue.Parse(jsonString);
-                dynamic r = JsonConvert.DeserializeObject(jsonString);
-                return r;
+                if (SerializeTypeName)
+                {
+                    string className = sr.ReadLine();
+                    Type objectType = Util.GetType(className);
+
+                    return JsonConvert.DeserializeObject(sr.ReadToEnd(), objectType);
+                }
+                else
+                    return JsonConvert.DeserializeObject(sr.ReadToEnd());
             }
         }
 
@@ -60,8 +75,15 @@ namespace AnyCache.Serialization
         {
             using (StreamReader sr = new StreamReader(stream, encoding))
             {
+                if (SerializeTypeName)
+                {
+                    string className = sr.ReadLine();
+                    //Type objectType = GetType(className);
+                }
+
                 return JsonConvert.DeserializeObject<T>(sr.ReadToEnd());
             }
         }
+       
     }
 }

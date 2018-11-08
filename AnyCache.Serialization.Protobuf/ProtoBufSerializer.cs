@@ -1,14 +1,13 @@
 ﻿using AnyCache.Core;
-using MsgPack;
-using MsgPack.Serialization;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace AnyCache.Serialization
+namespace AnyCache.Serialization.Protobuf
 {
-    public class MsgPackSerializer : ISerializer
+    public class ProtoBufSerializer : ISerializer
     {
         /// <summary>
         /// Including object type in the final serialized value.
@@ -16,7 +15,7 @@ namespace AnyCache.Serialization
         /// </summary>
         public bool SerializeTypeName { get; private set; }
 
-        public MsgPackSerializer(bool serializeTypeName = false)
+        public ProtoBufSerializer(bool serializeTypeName = false)
         {
             SerializeTypeName = serializeTypeName;
         }
@@ -28,8 +27,7 @@ namespace AnyCache.Serialization
                 if (SerializeTypeName)
                     bw.Write(value.GetType().AssemblyQualifiedName);
                 
-                var serializer = MessagePackSerializer.Get(value.GetType());
-                serializer.Pack(stream, value);
+                Serializer.Serialize(stream, value);
             }
         }
 
@@ -40,10 +38,9 @@ namespace AnyCache.Serialization
                 if (SerializeTypeName)
                 {
                     string className = br.ReadString();
-                    Type objectType = Util.GetType(className);
+                    Type objectType = GetType(className);
 
-                    var serializer = MessagePackSerializer.Get(objectType);
-                    return serializer.Unpack(stream);
+                    return Serializer.Deserialize(objectType, stream);
                 }
                 else
                 {
@@ -65,9 +62,23 @@ namespace AnyCache.Serialization
                     //Type objectType = Util.GetType(className);
                 }
 
-                var serializer = MessagePackSerializer.Get(typeof(T));
-                return (T)serializer.Unpack(stream);
+                return Serializer.Deserialize<T>(stream);
             }
+        }
+
+        internal static Type GetType(string typeName)
+        {
+            // If typeName is just FullName of the class It dos not returns type of classes that exist in another dll library
+            // but if typeName is AssemblyQualifiedName ("typeName,DllName" format) it will be ok.
+            var type = Type.GetType(typeName);
+            if (type != null) return type;
+            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = a.GetType(typeName);
+                if (type != null)
+                    break;
+            }
+            return type;
         }
     }
 }

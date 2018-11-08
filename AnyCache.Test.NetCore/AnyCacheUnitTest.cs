@@ -2,6 +2,7 @@ using AnyCache.Core;
 using AnyCache.InMemory;
 using AnyCache.Redis;
 using AnyCache.Serialization;
+using AnyCache.Serialization.Protobuf;
 using AnyCache.Test.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
@@ -11,15 +12,17 @@ namespace AnyCache.Test.NetCore
     [TestClass]
     public class AnyCacheUnitTest
     {
-        //IAnyCache cache = new InMemoryCache();
+        
 
-        //static ISerializer serializer = new BinarySerializer();
-        static ISerializer serializer = new JsonSerializer();
+        static ISerializer serializer = new BinarySerializer();
+        //static ISerializer serializer = new JsonSerializer();
         //static ISerializer serializer = new MsgPackSerializer();
         //static ISerializer serializer = new XmlSerializer();
+        //static ISerializer serializer = new ProtoBufSerializer();
 
-        IAnyCache cache = new RedisCache(serializer: serializer);
-        //static IAnyCache redis = new RedisCache();
+        //IAnyCache cache = new InMemoryCache();
+        //IAnyCache cache = new RedisCache(serializer: serializer);
+        static IAnyCache cache = new RedisCache();
         //IAnyCache cache = new CacheManager(redis);
 
         [TestMethod]
@@ -43,6 +46,39 @@ namespace AnyCache.Test.NetCore
             int ret = cache.Get<int>(key);
 
             Assert.AreEqual(123000, ret);
+
+        }
+
+        [TestMethod]
+        public void TestNotExistGet()
+        {
+            string key = "TestNotExistValue";
+
+            var ret = cache.Get(key);
+
+            Assert.IsNull(ret);
+
+        }
+
+        [TestMethod]
+        public void TestNotExistGetTyped()
+        {
+            string key = "TestNotExistValue";
+
+            var ret = cache.Get<int>(key);
+
+            Assert.IsNull(ret);
+
+        }
+
+        [TestMethod]
+        public void TestNotExistGetObjectTyped()
+        {
+            string key = "TestNotExistValue";
+
+            var ret = cache.Get<Person>(key);
+
+            Assert.IsNull(ret);
 
         }
 

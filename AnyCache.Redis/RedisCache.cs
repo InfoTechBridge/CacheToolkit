@@ -197,7 +197,12 @@ namespace AnyCache.Redis
             if (!val.IsNull)
                 return FromRedisValue<T>(val);
             else
-                return default(T);
+            {
+                if (default(T) == null)
+                    return default(T);
+                else
+                    throw new EntryNotFoundException();
+            }
         }
 
         public async Task<object> GetAsync(string key)
@@ -270,24 +275,18 @@ namespace AnyCache.Redis
         {
             var val = Get(key);
             if (val != null)
-            {
                 _db.KeyDelete(ToRedisKey(key));
-                return val;
-            }
-            else
-                return null;
+
+            return null;
         }
 
         public T Remove<T>(string key)
         {
             var val = Get<T>(key);
             if (val != null)
-            {
                 _db.KeyDelete(ToRedisKey(key));
-                return val;
-            }
-            else
-                return default(T);
+
+            return val;
         }
 
 
