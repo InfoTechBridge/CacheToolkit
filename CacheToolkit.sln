@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyCache.Test.Core", "AnyCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyCache.Serialization.Protobuf", "AnyCache.Serialization.Protobuf\AnyCache.Serialization.Protobuf.csproj", "{40D59561-4D58-4EF9-AD30-AFE8D16F072B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnyCache.Disk", "AnyCache.Disk\AnyCache.Disk.csproj", "{13E86D21-5AD1-4E3F-93ED-7752DA558B16}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{40D59561-4D58-4EF9-AD30-AFE8D16F072B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E86D21-5AD1-4E3F-93ED-7752DA558B16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E86D21-5AD1-4E3F-93ED-7752DA558B16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E86D21-5AD1-4E3F-93ED-7752DA558B16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E86D21-5AD1-4E3F-93ED-7752DA558B16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

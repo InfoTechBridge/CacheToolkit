@@ -13,11 +13,8 @@ namespace AnyCache.Core
         bool Add<T>(string key, T value, DateTimeOffset? absoluteExpiration = null);
         bool Add(string key, object value, TimeSpan slidingExpiration);        
         bool Add<T>(string key, T value, TimeSpan slidingExpiration);
-
-        object AddOrGetExisting(string key, object value, DateTimeOffset? absoluteExpiration = null);
-        T AddOrGetExisting<T>(string key, T value, DateTimeOffset? absoluteExpiration = null);
-        object AddOrGetExisting(string key, object value, TimeSpan slidingExpiration);
-        T AddOrGetExisting<T>(string key, T value, TimeSpan slidingExpiration);
+        
+        
 
         void Set(string key, object value, DateTimeOffset? absoluteExpiration = null);
         void Set<T>(string key, T value, DateTimeOffset? absoluteExpiration = null);
@@ -29,8 +26,23 @@ namespace AnyCache.Core
         object Get(string key);
         T Get<T>(string key);
 
+        //T GetValueOrDefault<T>(string key);
+        T GetValueOrDefault<T>(string key, T value);
+        //bool TryGetValue(string key, out object result);
+        //bool TryGetValue<T>(string key, out T result);
+
         Task<object> GetAsync(string key);
         Task<T> GetAsync<T>(string key);
+
+        object GetValueOrAdd(string key, object value, DateTimeOffset? absoluteExpiration = null);
+        T GetValueOrAdd<T>(string key, T value, DateTimeOffset? absoluteExpiration = null);
+        object GetValueOrAdd(string key, object value, TimeSpan slidingExpiration);
+        T GetValueOrAdd<T>(string key, T value, TimeSpan slidingExpiration);
+
+        object GetValueOrAdd(string key, Func<object> retriever, DateTimeOffset? absoluteExpiration = null);
+        T GetValueOrAdd<T>(string key, Func<T> retriever, DateTimeOffset? absoluteExpiration = null);
+        object GetValueOrAdd(string key, Func<object> retriever, TimeSpan slidingExpiration);
+        T GetValueOrAdd<T>(string key, Func<T> retriever, TimeSpan slidingExpiration);
 
         IDictionary<string, object> GetAll(IEnumerable<string> keys);
         IDictionary<string, T> GetAll<T>(IEnumerable<string> keys);

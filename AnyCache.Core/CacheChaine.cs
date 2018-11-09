@@ -38,22 +38,42 @@ namespace AnyCache.Core
             throw new NotImplementedException();
         }
 
-        public object AddOrGetExisting(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        public object GetValueOrAdd(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
             throw new NotImplementedException();
         }
 
-        public T AddOrGetExisting<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public T GetValueOrAdd<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
             throw new NotImplementedException();
         }
 
-        public object AddOrGetExisting(string key, object value, TimeSpan slidingExpiration)
+        public object GetValueOrAdd(string key, object value, TimeSpan slidingExpiration)
         {
             throw new NotImplementedException();
         }
 
-        public T AddOrGetExisting<T>(string key, T value, TimeSpan slidingExpiration)
+        public T GetValueOrAdd<T>(string key, T value, TimeSpan slidingExpiration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetValueOrAdd(string key, Func<object> retriever, DateTimeOffset? absoluteExpiration = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T GetValueOrAdd<T>(string key, Func<T> retriever, DateTimeOffset? absoluteExpiration = null)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetValueOrAdd(string key, Func<object> retriever, TimeSpan slidingExpiration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public T GetValueOrAdd<T>(string key, Func<T> retriever, TimeSpan slidingExpiration)
         {
             throw new NotImplementedException();
         }
@@ -160,6 +180,11 @@ namespace AnyCache.Core
         }
 
         IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        public T GetValueOrDefault<T>(string key, T value)
         {
             throw new NotImplementedException();
         }

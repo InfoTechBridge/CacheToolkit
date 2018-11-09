@@ -44,21 +44,41 @@ namespace AnyCache.Core
             return innerCache.Add<T>(key, value, slidingExpiration);
         }
 
-        public object AddOrGetExisting(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        public object GetValueOrAdd(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
-            return innerCache.AddOrGetExisting(key, value, absoluteExpiration);
+            return innerCache.GetValueOrAdd(key, value, absoluteExpiration);
         }
-        public T AddOrGetExisting<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public T GetValueOrAdd<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
-            return innerCache.AddOrGetExisting<T>(key, value, absoluteExpiration);
+            return innerCache.GetValueOrAdd<T>(key, value, absoluteExpiration);
         }
-        public object AddOrGetExisting(string key, object value, TimeSpan slidingExpiration)
+        public object GetValueOrAdd(string key, object value, TimeSpan slidingExpiration)
         {
-            return innerCache.AddOrGetExisting(key, value, slidingExpiration);
+            return innerCache.GetValueOrAdd(key, value, slidingExpiration);
         }
-        public T AddOrGetExisting<T>(string key, T value, TimeSpan slidingExpiration)
+        public T GetValueOrAdd<T>(string key, T value, TimeSpan slidingExpiration)
         {
-            return innerCache.AddOrGetExisting<T>(key, value, slidingExpiration);
+            return innerCache.GetValueOrAdd<T>(key, value, slidingExpiration);
+        }
+
+        public object GetValueOrAdd(string key, Func<object> retriever, DateTimeOffset? absoluteExpiration = null)
+        {
+            return innerCache.GetValueOrAdd(key, retriever, absoluteExpiration);
+        }
+
+        public T GetValueOrAdd<T>(string key, Func<T> retriever, DateTimeOffset? absoluteExpiration = null)
+        {
+            return innerCache.GetValueOrAdd<T>(key, retriever, absoluteExpiration);
+        }
+
+        public object GetValueOrAdd(string key, Func<object> retriever, TimeSpan slidingExpiration)
+        {
+            return innerCache.GetValueOrAdd(key, retriever, slidingExpiration);
+        }
+
+        public T GetValueOrAdd<T>(string key, Func<T> retriever, TimeSpan slidingExpiration)
+        {
+            return innerCache.GetValueOrAdd<T>(key, retriever, slidingExpiration);
         }
 
         public void Set(string key, object value, DateTimeOffset? absoluteExpiration = null)
@@ -143,6 +163,11 @@ namespace AnyCache.Core
         IEnumerator IEnumerable.GetEnumerator()
         {
             return innerCache.GetEnumerator();
+        }
+
+        public T GetValueOrDefault<T>(string key, T value)
+        {
+            return innerCache.GetValueOrDefault<T>(key, value);
         }
     }
 }

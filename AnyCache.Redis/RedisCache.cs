@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AnyCache.Redis
 {
-    public class RedisCache : IAnyCache, IAnyHashCache, IDisposable
+    public class RedisCache : CacheBase, IAnyHashCache, IDisposable
     {
         public readonly string KeyPrefix;
         private readonly ISerializer _serializer;
@@ -23,7 +23,7 @@ namespace AnyCache.Redis
         /// </summary>
         ConnectionMultiplexer _redis;
         IDatabase _db;
-        
+
 
         public RedisCache(string connectionString = null, string keyPrefix = null, ISerializer serializer = null)
         {
@@ -87,102 +87,117 @@ namespace AnyCache.Redis
             }
         }
 
-        public object this[string key] { get => Get(key); set => Set(key, value); }
+        //public object this[string key] { get => Get(key); set => Set(key, value); }
 
-        public bool Add(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        public override bool Add(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
             return _db.StringSet(ToRedisKey(key), ToRedisValue(value), absoluteExpiration.HasValue ? (TimeSpan?)(absoluteExpiration.Value - DateTimeOffset.Now) : null, When.NotExists);
         }
 
-        public bool Add<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public override bool Add<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
             return _db.StringSet(ToRedisKey(key), ToRedisValue(value), absoluteExpiration.HasValue ? (TimeSpan?)(absoluteExpiration.Value - DateTimeOffset.Now) : null, When.NotExists);
         }
 
-        public bool Add(string key, object value, TimeSpan slidingExpiration)
+        public override bool Add(string key, object value, TimeSpan slidingExpiration)
         {
             return _db.StringSet(ToRedisKey(key), ToRedisValue(value), slidingExpiration, When.NotExists);
         }
 
-        public bool Add<T>(string key, T value, TimeSpan slidingExpiration)
+        public override bool Add<T>(string key, T value, TimeSpan slidingExpiration)
         {
             return _db.StringSet(ToRedisKey(key), ToRedisValue(value), slidingExpiration, When.NotExists);
         }
 
-        public object AddOrGetExisting(string key, object value, DateTimeOffset? absoluteExpiration = null)
-        {
-            var val = Get(key);
-            if (val != null)
-                return val;
-            else
-            {
-                Set(key, value, absoluteExpiration);
-                return value;
-            }
-        }
+        //public object AddOrGetExisting(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        //{
+        //    var val = Get(key);
+        //    if (val != null)
+        //        return val;
+        //    else
+        //    {
+        //        Set(key, value, absoluteExpiration);
+        //        return value;
+        //    }
+        //}
 
-        public T AddOrGetExisting<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
-        {
-            var val = Get<T>(key);
-            if (val != null)
-                return val;
-            else
-            {
-                Set<T>(key, value, absoluteExpiration);
-                return value;
-            }
-        }
-                
-        public object AddOrGetExisting(string key, object value, TimeSpan slidingExpiration)
-        {
-            var val = Get(key);
-            if (val != null)
-                return val;
-            else
-            {
-                Set(key, value, slidingExpiration);
-                return value;
-            }
-        }
+        //public T AddOrGetExisting<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        //{
+        //    var val = Get<T>(key);
+        //    if (val != null)
+        //        return val;
+        //    else
+        //    {
+        //        Set<T>(key, value, absoluteExpiration);
+        //        return value;
+        //    }
+        //}
 
-        public T AddOrGetExisting<T>(string key, T value, TimeSpan slidingExpiration)
-        {
-            var val = Get<T>(key);
-            if (val != null)
-                return val;
-            else
-            {
-                Set<T>(key, value, slidingExpiration);
-                return value;
-            }
-        }
+        //public object AddOrGetExisting(string key, object value, TimeSpan slidingExpiration)
+        //{
+        //    var val = Get(key);
+        //    if (val != null)
+        //        return val;
+        //    else
+        //    {
+        //        Set(key, value, slidingExpiration);
+        //        return value;
+        //    }
+        //}
 
-        public void Set(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        //public T AddOrGetExisting<T>(string key, T value, TimeSpan slidingExpiration)
+        //{
+        //    var val = Get<T>(key);
+        //    if (val != null)
+        //        return val;
+        //    else
+        //    {
+        //        Set<T>(key, value, slidingExpiration);
+        //        return value;
+        //    }
+        //}
+
+        //public T AddOrGetExisting<T>(string key, Func<T> retriever, TimeSpan slidingExpiration)
+        //{
+        //    var val = Get<T>(key);
+        //    if (val != null)
+        //        return val;
+        //    else
+        //    {
+        //        var value = retriever.Invoke();
+        //        if (value != null)
+        //            Set<T>(key, value, slidingExpiration);
+
+        //        return value;
+        //    }
+        //}
+
+        public override void Set(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
             _db.StringSet(ToRedisKey(key), ToRedisValue(value), absoluteExpiration.HasValue ? (TimeSpan?)(absoluteExpiration.Value - DateTimeOffset.Now) : null);
         }
 
-        public void Set<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public override void Set<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
             _db.StringSet(ToRedisKey(key), ToRedisValue(value), absoluteExpiration.HasValue ? (TimeSpan?)(absoluteExpiration.Value - DateTimeOffset.Now) : null);
         }
 
-        public void Set(string key, object value, TimeSpan slidingExpiration)
+        public override void Set(string key, object value, TimeSpan slidingExpiration)
         {
             _db.StringSet(ToRedisKey(key), ToRedisValue(value), slidingExpiration);
         }
 
-        public void Set<T>(string key, T value, TimeSpan slidingExpiration)
+        public override void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
             _db.StringSet(ToRedisKey(key), ToRedisValue(value), slidingExpiration);
         }
 
-        public bool Contains(string key)
+        public override bool Contains(string key)
         {
             return _db.KeyExists(ToRedisKey(key));
         }
 
-        public object Get(string key)
+        public override object Get(string key)
         {
             var val = _db.StringGet(ToRedisKey(key));
             if (!val.IsNull)
@@ -191,21 +206,74 @@ namespace AnyCache.Redis
                 return null;
         }
 
-        public T Get<T>(string key)
+        public override T Get<T>(string key)
         {
             var val = _db.StringGet(ToRedisKey(key));
             if (!val.IsNull)
                 return FromRedisValue<T>(val);
             else
             {
-                if (default(T) == null)
-                    return default(T);
-                else
-                    throw new EntryNotFoundException();
+                //if (default(T) == null)
+                return default(T);
+                //else
+                //    throw new EntryNotFoundException();
             }
         }
 
-        public async Task<object> GetAsync(string key)
+        //public T GetValueOrDefault<T>(string key)
+        //{
+        //    var val = _db.StringGet(ToRedisKey(key));
+        //    if (!val.IsNull)
+        //        return FromRedisValue<T>(val);
+        //    else
+        //        return default(T);
+
+        //    //int? t;
+        //    //t.GetValueOrDefault();
+        //    //t.tr
+        //}
+
+        public override T GetValueOrDefault<T>(string key, T value)
+        {
+            var val = _db.StringGet(ToRedisKey(key));
+            if (!val.IsNull)
+                return FromRedisValue<T>(val);
+            else
+                return value;
+        }
+
+        //public bool TryGetValue(string key, out object result)
+        //{
+
+        //    var val = _db.StringGet(ToRedisKey(key));
+        //    if (!val.IsNull)
+        //    {
+        //        result = FromRedisValue(val);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        result = null;
+        //        return false;
+        //    }
+        //}
+
+        //public bool TryGetValue<T>(string key, out T result)
+        //{
+        //    var val = _db.StringGet(ToRedisKey(key));
+        //    if (!val.IsNull)
+        //    {
+        //        result = FromRedisValue<T>(val);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        result = default(T);
+        //        return false;
+        //    }
+        //}
+
+        public override async Task<object> GetAsync(string key)
         {
             return await Task.Run<object>(() =>
             {
@@ -223,7 +291,7 @@ namespace AnyCache.Redis
             //return tcs.Task;
         }
 
-        public async Task<T> GetAsync<T>(string key)
+        public override async Task<T> GetAsync<T>(string key)
         {
             return await Task.Run<T>(() =>
             {
@@ -237,12 +305,12 @@ namespace AnyCache.Redis
             //    return default(T);
         }
 
-        public IDictionary<string, object> GetAll(IEnumerable<string> keys)
+        public override IDictionary<string, object> GetAll(IEnumerable<string> keys)
         {
             IDictionary<string, object> values = new Dictionary<string, object>();
             if (keys == null || keys.Count() == 0)
                 return values;
-
+            
             //var items = _db.StringGet(keys.Select(k => (RedisKey)ToRedisKey(k)).ToArray());
             //int i = 0;
             //foreach (var val in items)
@@ -259,7 +327,7 @@ namespace AnyCache.Redis
             return values;
         }
 
-        public IDictionary<string, T> GetAll<T>(IEnumerable<string> keys)
+        public override IDictionary<string, T> GetAll<T>(IEnumerable<string> keys)
         {
             IDictionary<string, T> values = new Dictionary<string, T>();
             foreach (var key in keys)
@@ -271,7 +339,7 @@ namespace AnyCache.Redis
             return values;
         }
 
-        public object Remove(string key)
+        public override object Remove(string key)
         {
             var val = Get(key);
             if (val != null)
@@ -280,7 +348,7 @@ namespace AnyCache.Redis
             return null;
         }
 
-        public T Remove<T>(string key)
+        public override T Remove<T>(string key)
         {
             var val = Get<T>(key);
             if (val != null)
@@ -290,7 +358,7 @@ namespace AnyCache.Redis
         }
 
 
-        public long GetCount()
+        public override long GetCount()
         {
             var counts = 0;
             var endpoints = _redis.GetEndPoints();
@@ -302,7 +370,7 @@ namespace AnyCache.Redis
             return counts;
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
             var endpoints = _redis.GetEndPoints();
             foreach (var endpoint in endpoints)
@@ -318,12 +386,12 @@ namespace AnyCache.Redis
             }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
 
-        public void ClearCache()
+        public override void ClearCache()
         {
             var endpoints = _redis.GetEndPoints();
             foreach (var endpoint in endpoints)
@@ -337,7 +405,7 @@ namespace AnyCache.Redis
             }
         }
 
-        public void Compact()
+        public override void Compact()
         {
             throw new NotImplementedException();
         }

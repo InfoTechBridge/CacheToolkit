@@ -15,10 +15,10 @@ namespace AnyCache.Test
         //IAnyCache cache = new RedisCache();
 
         [TestMethod]
-        public void TestValueType()
+        public void TestValue()
         {
             string key = "key1";
-            cache.Set(key, (int)123, null);
+            cache.Set(key, 123, null);
 
             int ret = (int)cache.Get(key);
 
@@ -27,14 +27,47 @@ namespace AnyCache.Test
         }
 
         [TestMethod]
-        public void TestValueTypeTyped()
+        public void TestValueTyped()
         {
             string key = "key1typed";
-            cache.Set(key, 123, null);
+            cache.Set(key, 123000, null);
 
             int ret = cache.Get<int>(key);
 
-            Assert.AreEqual(123, ret);
+            Assert.AreEqual(123000, ret);
+
+        }
+
+        [TestMethod]
+        public void TestNotExistGet()
+        {
+            string key = "TestNotExistValue";
+
+            var ret = cache.Get(key);
+
+            Assert.IsNull(ret);
+
+        }
+
+        [TestMethod]
+        public void TestNotExistGetTyped()
+        {
+            string key = "TestNotExistValue";
+
+            var ret = cache.Get<int>(key);
+
+            Assert.IsNull(ret);
+
+        }
+
+        [TestMethod]
+        public void TestNotExistGetObjectTyped()
+        {
+            string key = "TestNotExistValue";
+
+            var ret = cache.Get<Person>(key);
+
+            Assert.IsNull(ret);
 
         }
 
@@ -45,14 +78,27 @@ namespace AnyCache.Test
             Person obj = new Person("Tom", "Hanks");
             cache.Set(key, obj, null);
 
-            Person ret = (Person)cache.Get<Person>(key);
+            Person ret = (Person)cache.Get(key);
 
             Assert.IsTrue(obj.PublicInstancePropertiesEqual(ret));
 
         }
 
         [TestMethod]
-        public void TestListObject()
+        public void TestObjectTyped()
+        {
+            string key = "key1obj";
+            Person obj = new Person("Tom", "Hanks");
+            cache.Set(key, obj, null);
+
+            Person ret = cache.Get<Person>(key);
+
+            Assert.IsTrue(obj.PublicInstancePropertiesEqual(ret));
+
+        }
+
+        [TestMethod]
+        public void TestListOfObjects()
         {
             string key = "key2list";
             List<Person> list = new List<Person>();
@@ -63,7 +109,8 @@ namespace AnyCache.Test
 
             cache.Set(key, list, null);
 
-            List<Person> ret = (List<Person>)cache.Get(key);
+            //List<Person> ret = (List<Person>)cache.Get(key);
+            List<Person> ret = cache.Get<List<Person>>(key);
 
             Assert.AreEqual(list.Count, ret.Count);
             Assert.IsTrue(list[0].PublicInstancePropertiesEqual(ret[0]));
@@ -71,6 +118,5 @@ namespace AnyCache.Test
             Assert.IsTrue(list[2].PublicInstancePropertiesEqual(ret[2]));
             Assert.IsTrue(list[3].PublicInstancePropertiesEqual(ret[3]));
         }
-
     }
 }

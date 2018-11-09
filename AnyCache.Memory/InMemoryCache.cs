@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AnyCache.InMemory
 {
-    public class InMemoryCache : IAnyCache, IDisposable
+    public class InMemoryCache : CacheBase, IDisposable
     {
         private readonly ObjectCache _cache;
 
@@ -23,128 +23,148 @@ namespace AnyCache.InMemory
             _cache = cache;
         }
 
-        public object this[string key] { get => Get(key); set => Set(key, value); }
+        //public object this[string key] { get => Get(key); set => Set(key, value); }
 
-        public bool Add(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        public override bool Add(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
             return _cache.Add(key, value, absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
         }
-        public bool Add<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public override bool Add<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
             return _cache.Add(key, value, absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
         }
-        public bool Add(string key, object value, TimeSpan slidingExpiration)
+        public override bool Add(string key, object value, TimeSpan slidingExpiration)
         {
             return _cache.Add(key, value, new CacheItemPolicy { SlidingExpiration = slidingExpiration });
         }
-        public bool Add<T>(string key, T value, TimeSpan slidingExpiration)
+        public override bool Add<T>(string key, T value, TimeSpan slidingExpiration)
         {
             return _cache.Add(key, value, new CacheItemPolicy { SlidingExpiration = slidingExpiration });
         }
 
-        public object AddOrGetExisting(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        public override object GetValueOrAdd(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
             return _cache.AddOrGetExisting(key, value, absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
         }
-        public T AddOrGetExisting<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public override T GetValueOrAdd<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
             return (T)_cache.AddOrGetExisting(key, value, absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
         }
-        public object AddOrGetExisting(string key, object value, TimeSpan slidingExpiration)
+        public override object GetValueOrAdd(string key, object value, TimeSpan slidingExpiration)
         {
             return _cache.AddOrGetExisting(key, value, new CacheItemPolicy { SlidingExpiration = slidingExpiration });
         }
-        public T AddOrGetExisting<T>(string key, T value, TimeSpan slidingExpiration)
+        public override T GetValueOrAdd<T>(string key, T value, TimeSpan slidingExpiration)
         {
             return (T)_cache.AddOrGetExisting(key, value, new CacheItemPolicy { SlidingExpiration = slidingExpiration });
         }
 
-        public void Set(string key, object value, DateTimeOffset? absoluteExpiration = null)
+        public override object GetValueOrAdd(string key, Func<object> retriever, DateTimeOffset? absoluteExpiration = null)
+        {
+            return _cache.AddOrGetExisting(key, retriever?.Invoke(), absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
+        }
+
+        public override T GetValueOrAdd<T>(string key, Func<T> retriever, DateTimeOffset? absoluteExpiration = null)
+        {
+            return (T)_cache.AddOrGetExisting(key, retriever.Invoke(), absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
+        }
+
+        public override object GetValueOrAdd(string key, Func<object> retriever, TimeSpan slidingExpiration)
+        {
+            return _cache.AddOrGetExisting(key, retriever?.Invoke(), new CacheItemPolicy { SlidingExpiration = slidingExpiration });
+        }
+
+        public override T GetValueOrAdd<T>(string key, Func<T> retriever, TimeSpan slidingExpiration)
+        {
+            return (T)_cache.AddOrGetExisting(key, retriever.Invoke(), new CacheItemPolicy { SlidingExpiration = slidingExpiration });
+        }
+
+        public override void Set(string key, object value, DateTimeOffset? absoluteExpiration = null)
         {
             _cache.Set(key, value, absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
         }
-        public void Set<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
+        public override void Set<T>(string key, T value, DateTimeOffset? absoluteExpiration = null)
         {
             _cache.Set(key, value, absoluteExpiration.GetValueOrDefault(DateTimeOffset.MaxValue));
         }
-        public void Set(string key, object value, TimeSpan slidingExpiration)
+        public override void Set(string key, object value, TimeSpan slidingExpiration)
         {
             _cache.Set(key, value, new CacheItemPolicy { SlidingExpiration = slidingExpiration });
         }
-        public void Set<T>(string key, T value, TimeSpan slidingExpiration)
+        public override void Set<T>(string key, T value, TimeSpan slidingExpiration)
         {
             _cache.Set(key, value, new CacheItemPolicy { SlidingExpiration = slidingExpiration });
         }
 
-        public bool Contains(string key)
+        public override bool Contains(string key)
         {
             return _cache.Contains(key);
         }
 
-        public object Get(string key)
+        public override object Get(string key)
         {
             return _cache.Get(key);
         }
-        public T Get<T>(string key)
+        public override T Get<T>(string key)
         {
             return (T)_cache.Get(key);
         }
 
-        public async Task<object> GetAsync(string key)
-        {
-            return await Task.Run(() =>
-            {
-                return _cache.Get(key);
-            });
-        }
+        //public async Task<object> GetAsync(string key)
+        //{
+        //    return await Task.Run(() =>
+        //    {
+        //        return _cache.Get(key);
+        //    });
+        //}
 
-        public async Task<T> GetAsync<T>(string key)
-        {
-            return await Task.Run(() =>
-            {
-                return (T)_cache.Get(key);
-            });
-        }
+        //public async Task<T> GetAsync<T>(string key)
+        //{
+        //    return await Task.Run(() =>
+        //    {
+        //        return (T)_cache.Get(key);
+        //    });
+        //}
 
-        public IDictionary<string, object> GetAll(IEnumerable<string> keys)
+        public override IDictionary<string, object> GetAll(IEnumerable<string> keys)
         {
             return _cache.GetValues(keys);
         }
-        public IDictionary<string, T> GetAll<T>(IEnumerable<string> keys)
+        public override IDictionary<string, T> GetAll<T>(IEnumerable<string> keys)
         {
             return (IDictionary<string, T>)_cache.GetValues(keys).Select(i => new KeyValuePair<string, T>(i.Key, (T)i.Value));
         }
 
-        public object Remove(string key)
+        public override object Remove(string key)
         {
             return _cache.Remove(key);
         }
-        public T Remove<T>(string key)
+        public override T Remove<T>(string key)
         {
             return (T)_cache.Remove(key);
         }
 
-        public long GetCount()
+        public override long GetCount()
         {
             return _cache.GetCount();
         }
 
-        public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
+        public override IEnumerator<KeyValuePair<string, object>> GetEnumerator()
         {
             return _cache.AsEnumerable().GetEnumerator();
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
 
-        public void ClearCache()
+        public override void ClearCache()
         {
             throw new NotImplementedException();
         }
 
-        public void Compact()
+        public override void Compact()
         {
             throw new NotImplementedException();
         }
