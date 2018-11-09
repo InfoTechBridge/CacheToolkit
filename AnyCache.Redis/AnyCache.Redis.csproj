@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net461</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Amir Arayeshi</Authors>
+    <Company>InfoTeach Bridge</Company>
+    <RepositoryUrl>https://github.com/InfoTechBridge/CacheToolkit</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/InfoTechBridge/CacheToolkit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/InfoTechBridge/CacheToolkit/License</PackageLicenseUrl>
   </PropertyGroup>
 
   <!-- common NuGet package refs that affect all projects -->
