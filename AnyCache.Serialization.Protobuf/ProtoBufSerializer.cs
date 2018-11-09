@@ -1,5 +1,4 @@
-﻿using AnyCache.Core;
-using ProtoBuf;
+﻿using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.IO;

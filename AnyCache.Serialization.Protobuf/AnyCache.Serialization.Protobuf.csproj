@@ -8,9 +8,6 @@
   <ItemGroup>
     <PackageReference Include="protobuf-net" Version="2.4.0" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AnyCache.Core\AnyCache.Core.csproj" />
-  </ItemGroup>
 
   <!-- .NET Standard 2.0 references, compilation flags and build options -->
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
@@ -27,6 +24,9 @@
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AnyCache.Serialization\AnyCache.Serialization.csproj" />
   </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
