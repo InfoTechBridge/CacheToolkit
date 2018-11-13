@@ -16,7 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AnyCache.Core\AnyCache.Core.csproj" />
     <ProjectReference Include="..\AnyCache.Serialization\AnyCache.Serialization.csproj" />
   </ItemGroup>
 

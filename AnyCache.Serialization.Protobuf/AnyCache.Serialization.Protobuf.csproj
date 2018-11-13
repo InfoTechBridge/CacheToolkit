@@ -31,9 +31,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Configuration" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AnyCache.Serialization\AnyCache.Serialization.csproj" />
-  </ItemGroup>
   
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
     <DefineConstants>NET45;NETFULL</DefineConstants>

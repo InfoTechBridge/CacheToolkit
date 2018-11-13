@@ -8,9 +8,6 @@
   </PropertyGroup>
 
   <!-- common NuGet package refs that affect all projects -->
-  <ItemGroup>
-    <ProjectReference Include="..\AnyCache.Core\AnyCache.Core.csproj" />
-  </ItemGroup>
 
 
   <!-- .NET Standard 2.0 references, compilation flags and build options -->

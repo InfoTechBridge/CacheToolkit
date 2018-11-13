@@ -12,7 +12,6 @@
 
   <!-- common NuGet package refs that affect all projects -->
   <ItemGroup>
-    <ProjectReference Include="..\AnyCache.Core\AnyCache.Core.csproj" />
     <ProjectReference Include="..\AnyCache.Serialization\AnyCache.Serialization.csproj" />
   </ItemGroup>
 

@@ -33,9 +33,6 @@
     <PackageReference Include="MsgPack.Cli" Version="1.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AnyCache.Core\AnyCache.Core.csproj" />
-  </ItemGroup>
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net45'">
     <DefineConstants>NET45;NETFULL</DefineConstants>
   </PropertyGroup>
